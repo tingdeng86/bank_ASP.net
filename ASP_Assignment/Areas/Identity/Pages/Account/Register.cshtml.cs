@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using ASP_Assignment.Data;
+﻿using ASP_Assignment.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using static ASP_Assignment.Data.ApplicationDbContext;
 
 namespace ASP_Assignment.Areas.Identity.Pages.Account
@@ -73,20 +72,12 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Display(Name = "Account Type")]
-            [Required]
-            public AccountType AccountType { get; set; }
 
             [Display(Name = "Balance")]
             [Required]
             public decimal Balance { get; set; }
         }
-        public enum AccountType
-        {
 
-            Chequing,
-            Savings
-        }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -96,6 +87,23 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            var accountTypeNum = Request.Form["AccountType"];
+           
+            AccountType accountType;
+           
+            if (accountTypeNum == "0")
+            {
+                
+                accountType = AccountType.Chequing;
+            }
+            else if (accountTypeNum == "1")
+            {
+                accountType = AccountType.Savings;
+            }
+            else
+            {
+                accountType = AccountType.Savings;
+            }
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -109,6 +117,7 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                         Email = Input.Email,
                         FirstName = Input.FirstName,
                         LastName = Input.LastName,
+                        AccountType = accountType,
                         Balance = Input.Balance
                     };
                     _context.MyRegisteredUsers.Add(registerUser);

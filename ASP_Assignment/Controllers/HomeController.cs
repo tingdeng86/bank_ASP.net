@@ -1,4 +1,5 @@
-﻿using ASP_Assignment.Models;
+﻿using ASP_Assignment.Data;
+using ASP_Assignment.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,6 +21,7 @@ namespace ASP_Assignment.Controllers
 
         public IActionResult Index()
         {
+            ApplicationDbContext context = new ApplicationDbContext();
             return View();
         }
 

@@ -2,10 +2,6 @@
 using ASP_Assignment.Repositories;
 using ASP_Assignment.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ASP_Assignment.Controllers
 {
@@ -68,10 +64,19 @@ namespace ASP_Assignment.Controllers
         [HttpPost]
         public ActionResult Edit(ClientAccountVM caVM)
         {
-
+            ViewBag.ErrorMessage = "";
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-            esRepo.Update(caVM);
-            return RedirectToAction("Details", "Accounts");
+            if (ModelState.IsValid)
+            {
+                esRepo.Update(caVM);
+                return RedirectToAction("Details", "Accounts", new { caVM.clientID, caVM.accountNum });
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "This entry is invalid.";
+                return View(caVM);
+            }
+            
         }
 
 

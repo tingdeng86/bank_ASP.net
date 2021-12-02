@@ -46,6 +46,7 @@ namespace ASP_Assignment.Data
             public int clientID { get; set; }
             public string lastName { get; set; }
             public string firstName { get; set; }
+            public string email { get; set; }
             public virtual ICollection<ClientAccount> ClientAccounts { get; set; }
 
         }

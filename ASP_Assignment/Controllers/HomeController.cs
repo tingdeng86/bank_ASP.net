@@ -13,15 +13,17 @@ namespace ASP_Assignment.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            ApplicationDbContext context = new ApplicationDbContext();
+
             return View();
         }
         [HttpPost]
@@ -30,7 +32,7 @@ namespace ASP_Assignment.Controllers
             var accountTypeNum = Request.Form["AccountType"];
 
             // go to index action method of the EmployeeStore controller.
-            return RedirectToAction("Privacy", "Home");
+            return RedirectToAction("Index", "Accounts",new { accountTypeNum});
         }
 
 

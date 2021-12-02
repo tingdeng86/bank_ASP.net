@@ -67,7 +67,8 @@ namespace ASP_Assignment.Migrations
                     clientID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     lastName = table.Column<string>(type: "TEXT", nullable: true),
-                    firstName = table.Column<string>(type: "TEXT", nullable: true)
+                    firstName = table.Column<string>(type: "TEXT", nullable: true),
+                    email = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

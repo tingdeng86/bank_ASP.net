@@ -39,6 +39,9 @@ namespace ASP_Assignment.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("email")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("firstName")
                         .HasColumnType("TEXT");
 

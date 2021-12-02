@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP_Assignment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211129005737_initialCreate")]
+    [Migration("20211202015714_initialCreate")]
     partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,9 @@ namespace ASP_Assignment.Migrations
                     b.Property<int>("clientID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("email")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("firstName")
                         .HasColumnType("TEXT");

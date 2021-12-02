@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>@ViewBag.Name Accounts Summary </h1>
+<h1>@ViewBag.Name Accounts Summary</h1> 
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,9 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-               
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.accountNum)
             </th>
@@ -27,17 +24,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.accountType)
             </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.accountNum)
             </td>
@@ -50,7 +43,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.accountType)
             </td>
+            <td>
 
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { clientID = item.clientID, accountNum = item.accountNum }) |
+                @Html.ActionLink("Details", "Details", new { clientID =item.clientID,accountNum =item.accountNum  }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
         </tr>
 }
     </tbody>

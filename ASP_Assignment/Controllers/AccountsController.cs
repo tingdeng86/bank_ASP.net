@@ -23,7 +23,7 @@ namespace ASP_Assignment.Controllers
         {
             string type;
             
-            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+              ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             
             if (accountTypeNUm == "0")
             {
@@ -50,5 +50,30 @@ namespace ASP_Assignment.Controllers
             }
   
         }
+        public ActionResult Details(int clientID, int accountNum)
+        {
+
+            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+            ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
+            return View(caVM);
+        }
+        [HttpGet]
+        public ActionResult Edit(int clientID, int accountNum)
+        {
+
+            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+            ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
+            return View(caVM);
+        }
+        [HttpPost]
+        public ActionResult Edit(ClientAccountVM caVM)
+        {
+
+            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+            esRepo.Update(caVM);
+            return RedirectToAction("Details", "Accounts");
+        }
+
+
     }
 }

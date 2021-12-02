@@ -15,10 +15,13 @@ namespace ASP_Assignment.ViewModels
         [DisplayName("First Name")]  // Give nice label name for CRUD.
         public string firstName { get; set; }
 
-        [DisplayName("AccountType")] // Give nice label name for CRUD.
+        [DisplayName("Account Type")] // Give nice label name for CRUD.
         public string accountType { get; set; }
+        [DisplayName("Client ID")]
         public int clientID { get; set; }
+        [DisplayName("Balance")]
         public decimal balance { get; set; }
+        [DisplayName("Email")]
         public string email { get; internal set; }
 
 

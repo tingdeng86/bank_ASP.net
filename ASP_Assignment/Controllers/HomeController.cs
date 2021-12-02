@@ -23,7 +23,8 @@ namespace ASP_Assignment.Controllers
 
         public IActionResult Index()
         {
-
+            var query = _context.ClientAccounts;
+            
             return View();
         }
         [HttpPost]

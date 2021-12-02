@@ -29,7 +29,9 @@ namespace ASP_Assignment.Repositories
                             firstName= c.firstName == null ? "" : c.firstName,
                             lastName = c.lastName == null ? "" : c.lastName,
                             accountType = b.accountType,
-
+                            clientID=c.clientID,
+                            email=c.email,
+                            balance = b.balance,
                         };
             return query;
         }
@@ -48,19 +50,28 @@ namespace ASP_Assignment.Repositories
                             lastName = c.lastName == null ? "" : c.lastName,
                             accountType = b.accountType,
                             email = c.email,
-                            balance = (decimal)b.balance,
+                            balance =b.balance,
+                            clientID = c.clientID,
+                            
 
                         };
             return query;
         }
-        //public ClientAccountVM Get(string accountType)
-        //{
-        //    var query = GetAll()
-        //                .Where(es => es.accountType == accountType)
-        //                .FirstOrDefault();
-        //    return query;
+        public ClientAccountVM GetDetail(int clientID, int accountNum)
+        {
+            var query = GetAll()
+                        .Where(es => es.accountNum == accountNum && es.clientID == clientID)
+                        .FirstOrDefault();
+            return query;
 
-        //}
-
+        }
+        public bool Update(ClientAccountVM caVM)
+        {
+            ClientRepo clientRepo = new ClientRepo(_context);
+            clientRepo.Update(caVM.clientID, caVM.firstName, caVM.lastName);
+            BankAccountRepo baRepo = new BankAccountRepo(_context);
+            baRepo.Update(caVM.accountNum, caVM.balance);
+            return true;
+        }
     }
 }

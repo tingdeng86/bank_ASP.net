@@ -55,7 +55,7 @@ namespace ASP_Assignment.Data
             [Key]
             public int accountNum { get; set; }
             public string accountType { get; set; }
-            public float balance { get; set; }
+            public decimal balance { get; set; }
             public virtual ICollection<ClientAccount> ClientAccounts { get; set; }
 
         }

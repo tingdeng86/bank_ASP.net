@@ -14,15 +14,21 @@ namespace ASP_Assignment.Data
         {
             [Display(Name = "First Name")]
             [Required]
+            [RegularExpression(@"[a-zA-Z]{1,40}",
+                        ErrorMessage = "This is not a valid first name.")]
             public string FirstName { get; set; }
 
 
             [Display(Name = "Last Name")]
             [Required]
+            [RegularExpression(@"[a-zA-Z]{1,40}",
+                        ErrorMessage = "This is not a valid last name.")]
             public string LastName { get; set; }
 
             [Key]
             [Required]
+            [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$",
+                        ErrorMessage = "This is not a valid email.")]
             public string Email { get; internal set; }
 
             [Display(Name = "Account Type")]
@@ -31,6 +37,8 @@ namespace ASP_Assignment.Data
 
             [Display(Name = "Balance")]
             [Required]
+            [RegularExpression(@"^[1-9]\d*(\.\d{2})",
+                        ErrorMessage = "Balance should be a number which must include two digits to the right of the decimal.")]
             public decimal Balance { get; set; }
         }
 

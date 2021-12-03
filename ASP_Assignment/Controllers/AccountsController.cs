@@ -1,6 +1,7 @@
 ﻿using ASP_Assignment.Data;
 using ASP_Assignment.Repositories;
 using ASP_Assignment.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_Assignment.Controllers
@@ -83,11 +84,12 @@ namespace ASP_Assignment.Controllers
         //    ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
         //    return View(caVM);
         //}
-        public ActionResult Profile(string email)
+        [Authorize]
+        public ActionResult Profile()
         {
-
+            string userName = User.Identity.Name;
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-            ClientAccountVM caVM = esRepo.GetProfile(email);
+            ClientAccountVM caVM = esRepo.GetProfile(userName);
             return View(caVM);
         }
     }

@@ -53,7 +53,7 @@ namespace ASP_Assignment.Migrations
                     accountNum = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     accountType = table.Column<string>(type: "TEXT", nullable: true),
-                    balance = table.Column<float>(type: "REAL", nullable: false)
+                    balance = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace ASP_Assignment.Migrations
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", nullable: false),
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
-                    AccountType = table.Column<int>(type: "INTEGER", nullable: false),
+                    AccountType = table.Column<string>(type: "TEXT", nullable: false),
                     Balance = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

@@ -91,24 +91,21 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
         {
             var accountTypeNum = Request.Form["AccountType"];
            
-            AccountType accountType;
-            string acType;
+            string accountType;
            
-            if (accountTypeNum == "0")
+            if (accountTypeNum == "Chequing")
             {
                 
-                accountType = AccountType.Chequing;
-                acType = "Chequing";
+                accountType = "Chequing";
+                
             }
-            else if (accountTypeNum == "1")
+            else if (accountTypeNum == "Savings")
             {
-                accountType = AccountType.Savings;
-                acType = "Savings";
+                accountType = "Savings";
             }
             else
             {
-                accountType = AccountType.Savings;
-                acType = "Savings";
+                accountType = "Savings";
             }
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -131,7 +128,7 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
 
                     BankAccount bankAccount = new BankAccount()
                     {
-                        accountType = acType,
+                        accountType = accountType,
                         balance = Input.Balance,
                     };
                    var ba= _context.BankAccounts.Add(bankAccount);

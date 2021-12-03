@@ -52,8 +52,7 @@ namespace ASP_Assignment.Repositories
                             email = c.email ==null?"":c.email,
                             balance =b.balance,
                             clientID = c.clientID,
-                            
-
+                           
                         };
             return query;
         }

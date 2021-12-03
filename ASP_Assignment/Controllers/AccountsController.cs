@@ -18,8 +18,7 @@ namespace ASP_Assignment.Controllers
 
         public IActionResult Index(string accountTypeNum)
         {
-            string type;
-            
+            string type;            
               ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             
             if (accountTypeNum == "0")
@@ -55,7 +54,6 @@ namespace ASP_Assignment.Controllers
         [HttpGet]
         public ActionResult Edit(int clientID, int accountNum)
         {
-
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
             return View(caVM);

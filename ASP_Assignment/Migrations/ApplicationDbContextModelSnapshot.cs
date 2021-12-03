@@ -25,8 +25,8 @@ namespace ASP_Assignment.Migrations
                     b.Property<string>("accountType")
                         .HasColumnType("TEXT");
 
-                    b.Property<float>("balance")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("balance")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("accountNum");
 
@@ -73,8 +73,9 @@ namespace ASP_Assignment.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("AccountType")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("AccountType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Balance")
                         .HasColumnType("TEXT");

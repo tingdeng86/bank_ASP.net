@@ -33,7 +33,7 @@ namespace ASP_Assignment.Data
 
             [Display(Name = "Account Type")]
             [Required]
-            public AccountType AccountType { get; set; }
+            public string AccountType { get; set; }
 
             [Display(Name = "Balance")]
             [Required]
@@ -42,12 +42,7 @@ namespace ASP_Assignment.Data
             public decimal Balance { get; set; }
         }
 
-        public enum AccountType
-        {
 
-            Chequing,
-            Savings
-        }
         public class Client
         {
             [Key]
@@ -108,8 +103,6 @@ namespace ASP_Assignment.Data
             base.OnModelCreating(modelBuilder);
         }
 
-
     }
-
 
 }

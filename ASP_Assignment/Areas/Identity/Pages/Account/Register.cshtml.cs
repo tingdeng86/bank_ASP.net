@@ -74,6 +74,8 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
 
 
             [Display(Name = "Balance")]
+            [RegularExpression(@"^[1-9]\d*(\.\d{2})",
+                        ErrorMessage = "Balance should be a number which must include two digits to the right of the decimal.")]
             [Required]
             public decimal Balance { get; set; }
         }
@@ -90,19 +92,23 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
             var accountTypeNum = Request.Form["AccountType"];
            
             AccountType accountType;
+            string acType;
            
             if (accountTypeNum == "0")
             {
                 
                 accountType = AccountType.Chequing;
+                acType = "Chequing";
             }
             else if (accountTypeNum == "1")
             {
                 accountType = AccountType.Savings;
+                acType = "Savings";
             }
             else
             {
                 accountType = AccountType.Savings;
+                acType = "Savings";
             }
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -121,6 +127,32 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                         Balance = Input.Balance
                     };
                     _context.MyRegisteredUsers.Add(registerUser);
+                    _context.SaveChanges();
+
+                    BankAccount bankAccount = new BankAccount()
+                    {
+                        accountType = acType,
+                        balance = Input.Balance,
+                    };
+                   var ba= _context.BankAccounts.Add(bankAccount);
+                    _context.SaveChanges();
+
+                    Client client = new Client()
+                    {
+                        email = Input.Email,
+                        lastName = Input.LastName,
+                        firstName = Input.FirstName,
+
+                    };
+                    var c=_context.Clients.Add(client);
+                    _context.SaveChanges();
+
+                    ClientAccount clientAccount = new ClientAccount()
+                    {
+                        clientID = c.Entity.clientID,
+                        accountNum = ba.Entity.accountNum,
+                    };
+                    _context.ClientAccounts.Add(clientAccount);
                     _context.SaveChanges();
 
                     _logger.LogInformation("User created a new account with password.");
@@ -143,7 +175,7 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return RedirectToAction("Profile", "Accounts", new { email = Input.Email });
                     }
                 }
                 foreach (var error in result.Errors)

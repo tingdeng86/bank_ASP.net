@@ -15,22 +15,20 @@ namespace ASP_Assignment.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string accountTypeNUm)
+        public IActionResult Index(string accountTypeNum)
         {
             string type;
             
               ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             
-            if (accountTypeNUm == "0")
+            if (accountTypeNum == "0")
             {
                 type = "Chequing";
                var query = esRepo.GetAll(type);
                 ViewBag.Name = type;
                 return View(query);
-
-
             }
-            else if(accountTypeNUm == "1")
+            else if(accountTypeNum == "1")
             {
                 type = "Savings";
                 var query = esRepo.GetAll(type);
@@ -78,7 +76,19 @@ namespace ASP_Assignment.Controllers
             }
             
         }
+        //public ActionResult Profile(int clientID, int accountNum)
+        //{
 
+        //    ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+        //    ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
+        //    return View(caVM);
+        //}
+        public ActionResult Profile(string email)
+        {
 
+            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+            ClientAccountVM caVM = esRepo.GetProfile(email);
+            return View(caVM);
+        }
     }
 }

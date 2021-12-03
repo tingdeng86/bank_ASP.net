@@ -85,7 +85,9 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    //return LocalRedirect(returnUrl);
+                    return RedirectToAction("Profile", "Accounts", new { email = Input.Email });
+
                 }
                 if (result.RequiresTwoFactor)
                 {

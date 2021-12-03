@@ -73,5 +73,14 @@ namespace ASP_Assignment.Repositories
             baRepo.Update(caVM.accountNum, caVM.balance);
             return true;
         }
+
+        public ClientAccountVM GetProfile(string email)
+        {
+            var query = GetAll()
+                        .Where(es => es.email ==email)
+                        .FirstOrDefault();
+            return query;
+
+        }
     }
 }

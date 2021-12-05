@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP_Assignment.Controllers
 {
+    [Authorize]
     public class AccountsController : Controller
     {
         

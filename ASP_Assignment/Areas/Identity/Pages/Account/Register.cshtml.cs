@@ -74,6 +74,8 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
 
 
             [Display(Name = "Balance")]
+            [Range(0, int.MaxValue, ErrorMessage = "Balance can not be less than 0.")]
+
             [RegularExpression(@"^[1-9]\d*(\.\d{2})",
                         ErrorMessage = "Balance should be a number which must include two digits to the right of the decimal.")]
             [Required]

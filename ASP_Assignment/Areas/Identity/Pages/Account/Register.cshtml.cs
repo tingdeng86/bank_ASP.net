@@ -1,4 +1,5 @@
 ﻿using ASP_Assignment.Data;
+using ASP_Assignment.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

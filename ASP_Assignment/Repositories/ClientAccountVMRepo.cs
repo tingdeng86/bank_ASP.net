@@ -30,7 +30,7 @@ namespace ASP_Assignment.Repositories
                             lastName = c.lastName == null ? "" : c.lastName,
                             accountType = b.accountType,
                             clientID=c.clientID,
-                            email = c.email == null ? "" : c.email,
+                            email = c.email,
                             balance = b.balance,
                         };
             return query;
@@ -49,7 +49,7 @@ namespace ASP_Assignment.Repositories
                             firstName = c.firstName == null ? "" : c.firstName,
                             lastName = c.lastName == null ? "" : c.lastName,
                             accountType = b.accountType,
-                            email = c.email ==null?"":c.email,
+                            email = c.email,
                             balance =b.balance,
                             clientID = c.clientID,
                            

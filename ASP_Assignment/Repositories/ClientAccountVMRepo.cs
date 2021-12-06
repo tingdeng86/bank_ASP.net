@@ -1,4 +1,5 @@
 ﻿using ASP_Assignment.Data;
+using ASP_Assignment.Models;
 using ASP_Assignment.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,27 +15,7 @@ namespace ASP_Assignment.Repositories
         {
             _context = context;
         }
-        public IQueryable<ClientAccountVM>GetAll(string accountType)
-        {
-            var query = from c in _context.Clients
-                        from b in _context.BankAccounts
-                        from ca in _context.ClientAccounts
-                        where ca.accountNum == b.accountNum
-                        where c.clientID == ca.clientID
-                        where b.accountType == accountType
-                        orderby c.lastName
-                        select new ClientAccountVM()  // Create new object using
-                        {                             // our view model class.
-                            accountNum = b.accountNum,
-                            firstName= c.firstName == null ? "" : c.firstName,
-                            lastName = c.lastName == null ? "" : c.lastName,
-                            accountType = b.accountType,
-                            clientID=c.clientID,
-                            email = c.email,
-                            balance = b.balance,
-                        };
-            return query;
-        }
+       
         public IQueryable<ClientAccountVM> GetAll()
         {
             var query = from c in _context.Clients
@@ -42,7 +23,7 @@ namespace ASP_Assignment.Repositories
                         from ca in _context.ClientAccounts
                         where ca.accountNum == b.accountNum
                         where c.clientID == ca.clientID
-                        orderby c.lastName
+                        orderby b.accountNum descending
                         select new ClientAccountVM()  // Create new object using
                         {                             // our view model class.
                             accountNum = b.accountNum,
@@ -73,13 +54,81 @@ namespace ASP_Assignment.Repositories
             return true;
         }
 
-        public ClientAccountVM GetProfile(string email)
+        public IQueryable<ClientAccountVM> GetLists(string email)
         {
             var query = GetAll()
                         .Where(es => es.email ==email)
-                        .FirstOrDefault();
+                        
+                        ;
             return query;
 
+        }
+        //public bool Add()
+        //{
+
+        //}
+        public bool Add(ClientAccountVM caVM)
+        {
+
+            BankAccountRepo baRepo = new BankAccountRepo(_context);
+            BankAccount bankAccount = new BankAccount()
+            {
+                balance = caVM.balance,
+                accountType = caVM.accountType
+            };
+           int bankNum= baRepo.Add(bankAccount);
+ 
+            ClientRepo clientRepo = new ClientRepo(_context);
+            int clientID = clientRepo.GetID(caVM.email);
+            ClientAccount clientAccount = new ClientAccount()
+            {
+                clientID = clientID,
+                accountNum = bankNum,
+            };
+            _context.ClientAccounts.Add(clientAccount);
+            _context.SaveChanges();
+            return true;
+        }
+        public bool AddRegister(MyRegisteredUser myRegisteredUser)
+        {
+            BankAccountRepo baRepo = new BankAccountRepo(_context);
+            BankAccount bankAccount = new BankAccount()
+            {
+                balance = myRegisteredUser.Balance,
+                accountType = myRegisteredUser.AccountType
+            };
+            int bankNum = baRepo.Add(bankAccount);
+
+            ClientRepo clientRepo = new ClientRepo(_context);
+            Client client = new Client()
+            {
+                email = myRegisteredUser.Email,
+                lastName = myRegisteredUser.LastName,
+                firstName = myRegisteredUser.FirstName,
+            };
+            int clientID = clientRepo.AddAccounts(client);
+            ClientAccount clientAccount = new ClientAccount()
+            {
+                clientID = clientID,
+                accountNum = bankNum,
+            };
+            _context.ClientAccounts.Add(clientAccount);
+            _context.SaveChanges();
+            return true;
+        }
+        internal void Add(ClientAccount clientAccount)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Add(BankAccount bankAccount)
+        {
+            throw new NotImplementedException();
         }
     }
 }

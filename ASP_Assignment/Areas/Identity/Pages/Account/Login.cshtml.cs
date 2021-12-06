@@ -73,7 +73,7 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/Accounts/Profile");
+            returnUrl ??= Url.Content("~/Accounts/Index");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         

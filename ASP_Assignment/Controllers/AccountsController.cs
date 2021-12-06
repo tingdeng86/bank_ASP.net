@@ -1,8 +1,10 @@
 ﻿using ASP_Assignment.Data;
+using ASP_Assignment.Models;
 using ASP_Assignment.Repositories;
 using ASP_Assignment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace ASP_Assignment.Controllers
 {
@@ -12,42 +14,20 @@ namespace ASP_Assignment.Controllers
         
         private readonly ApplicationDbContext _context;
         public AccountsController( ApplicationDbContext context)
-        {
-            
+        {         
             _context = context;
         }
 
-        public IActionResult Index(string accountTypeNum)
+        public IActionResult Index()
         {
-            string type;            
-              ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-            
-            if (accountTypeNum == "0")
-            {
-                type = "Chequing";
-               var query = esRepo.GetAll(type);
-                ViewBag.Name = type;
-                return View(query);
-            }
-            else if(accountTypeNum == "1")
-            {
-                type = "Savings";
-                var query = esRepo.GetAll(type);
-                ViewBag.Name = type;
-                return View(query);
-            }
-            else
-            {
-                type = "All";
-               var  query = esRepo.GetAll();
-                ViewBag.Name = type;
-                return View(query);
-            }
-  
+            string email = User.Identity.Name;
+            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+            IQueryable<ClientAccountVM> caVM = esRepo.GetLists(email);
+            return View(caVM);
+
         }
         public ActionResult Details(int clientID, int accountNum)
         {
-
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
             return View(caVM);
@@ -73,23 +53,34 @@ namespace ASP_Assignment.Controllers
             {
                 ViewBag.ErrorMessage = "This entry is invalid.";
                 return View(caVM);
-            }
-            
+            }           
         }
-        //public ActionResult Profile(int clientID, int accountNum)
-        //{
 
+        //[Authorize]
+        //public ActionResult Profile()
+        //{
+        //    string userName = User.Identity.Name;
         //    ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-        //    ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
+        //    ClientAccountVM caVM = esRepo.GetProfile(userName);
         //    return View(caVM);
         //}
-        [Authorize]
-        public ActionResult Profile()
+        [HttpGet]
+        public ActionResult Create()
         {
-            string userName = User.Identity.Name;
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-            ClientAccountVM caVM = esRepo.GetProfile(userName);
-            return View(caVM);
+            
+            return View();
         }
+        [HttpPost]
+        public ActionResult Create([Bind("accountType,balance")] ClientAccountVM ca)
+        {
+
+            string userName = User.Identity.Name;
+            ca.email = userName;
+            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+                esRepo.Add(ca);
+                return RedirectToAction("Index", "Accounts");
+        }
+
     }
 }

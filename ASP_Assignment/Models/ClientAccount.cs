@@ -9,6 +9,7 @@ namespace ASP_Assignment.Models
 {
     public class ClientAccount
     {
+
         [Key, Column(Order = 0)]
         public int clientID { get; set; }
         [Key, Column(Order = 1)]

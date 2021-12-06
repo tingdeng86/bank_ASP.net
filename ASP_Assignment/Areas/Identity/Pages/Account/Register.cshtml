@@ -40,11 +40,12 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <select   class="form-control" id="AccountType" name="AccountType" style="margin-bottom:5px">
-                <option  value=""  >Select Account Type</option>
-                <option value="Chequing">Chequing </option>
-                <option value="Savings">Savings</option>
-            </select>
+            <label class="control-label">AccountType</label>
+                <select class="form-control" id="AccountType" name="AccountType" style="margin-bottom:5px">
+                    <option value="">Select Account Type</option>
+                    <option value="Chequing">Chequing </option>
+                    <option value="Savings">Savings</option>
+                </select>
             <div class="form-group">
                 <label asp-for="Input.Balance"></label>
                 <input asp-for="Input.Balance" class="form-control" />

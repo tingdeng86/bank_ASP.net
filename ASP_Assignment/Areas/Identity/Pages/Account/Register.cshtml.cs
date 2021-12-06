@@ -1,5 +1,7 @@
 ﻿using ASP_Assignment.Data;
 using ASP_Assignment.Models;
+using ASP_Assignment.Repositories;
+using ASP_Assignment.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -97,19 +99,14 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
             string accountType;
            
             if (accountTypeNum == "Chequing")
-            {
-                
-                accountType = "Chequing";
-                
+            {               
+                accountType = "Chequing";               
             }
-            else if (accountTypeNum == "Savings")
+            else  
             {
                 accountType = "Savings";
             }
-            else
-            {
-                accountType = "Savings";
-            }
+           
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -128,31 +125,10 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                     };
                     _context.MyRegisteredUsers.Add(registerUser);
                     _context.SaveChanges();
+                    ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+                    esRepo.AddRegister(registerUser);
 
-                    BankAccount bankAccount = new BankAccount()
-                    {
-                        accountType = accountType,
-                        balance = Input.Balance,
-                    };
-                   var ba= _context.BankAccounts.Add(bankAccount);
-                    _context.SaveChanges();
 
-                    Client client = new Client()
-                    {
-                        email = Input.Email,
-                        lastName = Input.LastName,
-                        firstName = Input.FirstName,
-
-                    };
-                    var c=_context.Clients.Add(client);
-                    _context.SaveChanges();
-
-                    ClientAccount clientAccount = new ClientAccount()
-                    {
-                        clientID = c.Entity.clientID,
-                        accountNum = ba.Entity.accountNum,
-                    };
-                    _context.ClientAccounts.Add(clientAccount);
                     _context.SaveChanges();
 
                     _logger.LogInformation("User created a new account with password.");
@@ -175,7 +151,7 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Profile", "Accounts", new { email = Input.Email });
+                        return RedirectToAction("Index", "Accounts", new { email = Input.Email });
                     }
                 }
                 foreach (var error in result.Errors)

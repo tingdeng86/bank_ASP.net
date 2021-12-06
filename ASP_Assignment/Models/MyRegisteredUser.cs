@@ -33,7 +33,7 @@ namespace ASP_Assignment.Models
 
         [Display(Name = "Balance")]
         [Required]
-        [RegularExpression(@"^[1-9]\d*(\.\d{2})",
+        [RegularExpression(@"^[0-9]\d*(\.\d{2})",
                     ErrorMessage = "Balance should be a number which must include two digits to the right of the decimal.")]
         public decimal Balance { get; set; }
     }

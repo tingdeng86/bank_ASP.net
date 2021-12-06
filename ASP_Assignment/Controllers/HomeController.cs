@@ -28,13 +28,7 @@ namespace ASP_Assignment.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Submit()
-        {
-            var accountTypeNum = Request.Form["AccountType"];
 
-            // go to index action method of the EmployeeStore controller.
-            return RedirectToAction("Index", "Accounts",new { accountTypeNum});
-        }
 
 
         public IActionResult Privacy()

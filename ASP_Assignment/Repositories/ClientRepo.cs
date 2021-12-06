@@ -29,5 +29,22 @@ namespace ASP_Assignment.Repositories
             return true;
         }
 
+        public int GetID(string email)
+        {
+            Client client = _context.Clients
+                .Where(e => e.email == email).FirstOrDefault();
+
+            return client.clientID;
+        }
+        public int AddAccounts(Client client)
+        {
+ 
+            _context.Clients.Add(client);
+            _context.SaveChanges();
+
+            return client.clientID;
+        }
+
+
     }
 }

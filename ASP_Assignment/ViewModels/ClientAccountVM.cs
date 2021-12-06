@@ -29,7 +29,7 @@ namespace ASP_Assignment.ViewModels
         public int clientID { get; set; }
         [Required(ErrorMessage = "Balance required.")]
         [Range(0, int.MaxValue, ErrorMessage = "Balance can not be less than 0.")]
-        [RegularExpression(@"^[1-9]\d*(\.\d{2})",
+        [RegularExpression(@"^[0-9]\d*(\.\d{2})",
                         ErrorMessage = "Balance should be a number which must include two digits to the right of the decimal.")]
         [DisplayName("Balance")]
         public decimal balance { get; set; }

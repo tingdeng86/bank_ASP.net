@@ -71,20 +71,17 @@ namespace ASP_Assignment.Controllers
             }           
         }
 
-
         [HttpGet]
         public ActionResult Create()
         {
-            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-            
+            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);            
             return View();
         }
         [HttpPost]
         public ActionResult Create([Bind("accountType,balance")] ClientAccountVM ca)
         {
             ViewData["Message"] = "";
-            ca.email = User.Identity.Name;
-            
+            ca.email = User.Identity.Name;            
             ClientAccount clientAccount;
             try {
                 ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
@@ -97,7 +94,6 @@ namespace ASP_Assignment.Controllers
                 ViewData["Message"] =e.Message;
                 return View(ca);
             }
-
         }
         public ActionResult Delete (int clientID,int accountNum)
         {
@@ -113,7 +109,6 @@ namespace ASP_Assignment.Controllers
                 ViewData["Message"] =e.Message;
             }
             return RedirectToAction("Index", "Accounts", new { message = ViewData["Message"] });
-
         }      
 
     }

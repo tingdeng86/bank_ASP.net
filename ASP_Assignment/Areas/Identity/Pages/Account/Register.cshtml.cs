@@ -54,9 +54,13 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
         {
             [Required]
             [Display(Name = "First Name")]
+            [RegularExpression(@"[a-zA-Z]{1,40}",
+            ErrorMessage = "This is not a valid first name.")]
             public string FirstName { get; set; }
             [Required]
             [Display(Name = "Last Name")]
+            [RegularExpression(@"[a-zA-Z]{1,40}",
+            ErrorMessage = "This is not a valid last name.")]
             public string LastName { get; set; }
 
             [Required]
@@ -75,12 +79,11 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-
             [Display(Name = "Balance")]
             [Range(0, int.MaxValue, ErrorMessage = "Balance can not be less than 0.")]
 
-            [RegularExpression(@"^[1-9]\d*(\.\d{2})",
-                        ErrorMessage = "Balance should be a number which must include two digits to the right of the decimal.")]
+            [RegularExpression(@"^\d+(\.\d{0,2})",
+                        ErrorMessage = "Balance should be a number which is up to two digits to the right of the decimal.")]
             [Required]
             public decimal Balance { get; set; }
         }
@@ -115,20 +118,18 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    MyRegisteredUser registerUser = new MyRegisteredUser()
+                    ClientAccountVM registerUser = new ClientAccountVM()
                     {
-                        Email = Input.Email,
-                        FirstName = Input.FirstName,
-                        LastName = Input.LastName,
-                        AccountType = accountType,
-                        Balance = Input.Balance
+                        email = Input.Email,
+                        firstName = Input.FirstName,
+                        lastName = Input.LastName,
+                        accountType = accountType,
+                        balance = Input.Balance
                     };
-                    _context.MyRegisteredUsers.Add(registerUser);
-                    _context.SaveChanges();
+                    //_context.MyRegisteredUsers.Add(registerUser);
+                    //_context.SaveChanges();
                     ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
                     esRepo.AddRegister(registerUser);
-
-
                     _context.SaveChanges();
 
                     _logger.LogInformation("User created a new account with password.");

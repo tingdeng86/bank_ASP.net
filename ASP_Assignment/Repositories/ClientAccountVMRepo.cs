@@ -57,11 +57,8 @@ namespace ASP_Assignment.Repositories
         public IQueryable<ClientAccountVM> GetLists(string email)
         {
             var query = GetAll()
-                        .Where(es => es.email ==email)
-                        
-                        ;
+                        .Where(es => es.email ==email);
             return query;
-
         }
 
         public ClientAccount Add(ClientAccountVM caVM)
@@ -86,22 +83,22 @@ namespace ASP_Assignment.Repositories
             _context.SaveChanges();
             return clientAccount;
         }
-        public bool AddRegister(MyRegisteredUser myRegisteredUser)
+        public bool AddRegister(ClientAccountVM myRegisteredUser)
         {
             BankAccountRepo baRepo = new BankAccountRepo(_context);
             BankAccount bankAccount = new BankAccount()
             {
-                balance = myRegisteredUser.Balance,
-                accountType = myRegisteredUser.AccountType
+                balance = myRegisteredUser.balance,
+                accountType = myRegisteredUser.accountType
             };
             int bankNum = baRepo.Add(bankAccount);
 
             ClientRepo clientRepo = new ClientRepo(_context);
             Client client = new Client()
             {
-                email = myRegisteredUser.Email,
-                lastName = myRegisteredUser.LastName,
-                firstName = myRegisteredUser.FirstName,
+                email = myRegisteredUser.email,
+                lastName = myRegisteredUser.lastName,
+                firstName = myRegisteredUser.firstName,
             };
             int clientID = clientRepo.AddAccounts(client);
             ClientAccount clientAccount = new ClientAccount()

@@ -20,14 +20,12 @@ namespace ASP_Assignment.Repositories
             BankAccount bankAccount = _context.BankAccounts
                 .Where(e => e.accountNum == id).FirstOrDefault();
             bankAccount.balance =balance;
-
             _context.SaveChanges();
             return true;
         }
 
         public int Add( BankAccount bankAccount)
         {
-
             _context.BankAccounts.Add(bankAccount);
             _context.SaveChanges();
             return bankAccount.accountNum;

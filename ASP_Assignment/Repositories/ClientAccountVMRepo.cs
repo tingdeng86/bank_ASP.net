@@ -63,11 +63,8 @@ namespace ASP_Assignment.Repositories
             return query;
 
         }
-        //public bool Add()
-        //{
 
-        //}
-        public bool Add(ClientAccountVM caVM)
+        public ClientAccount Add(ClientAccountVM caVM)
         {
 
             BankAccountRepo baRepo = new BankAccountRepo(_context);
@@ -87,7 +84,7 @@ namespace ASP_Assignment.Repositories
             };
             _context.ClientAccounts.Add(clientAccount);
             _context.SaveChanges();
-            return true;
+            return clientAccount;
         }
         public bool AddRegister(MyRegisteredUser myRegisteredUser)
         {
@@ -114,6 +111,20 @@ namespace ASP_Assignment.Repositories
             };
             _context.ClientAccounts.Add(clientAccount);
             _context.SaveChanges();
+            return true;
+        }
+
+        public bool Delete(int clientID,int accountNum)
+        {
+            ClientAccount clientAccount = new ClientAccount()
+            {
+                clientID = clientID,
+                accountNum = accountNum,
+            };
+            _context.ClientAccounts.Remove(clientAccount);
+            _context.SaveChanges();
+            BankAccountRepo baRepo = new BankAccountRepo(_context);
+            baRepo.Delete(accountNum);
             return true;
         }
         internal void Add(ClientAccount clientAccount)

@@ -7,7 +7,7 @@
 <h1>Account Details</h1>
 
 <div>
-    
+
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -57,7 +57,8 @@
 
     </dl>
 </div>
+@ViewBag.Message
 <div>
-    @Html.ActionLink("Edit", "Edit", new { clientID = Model.clientID, accountNum = Model.accountNum }) 
+    @Html.ActionLink("Edit", "Edit", new { clientID = Model.clientID, accountNum = Model.accountNum })
     <a asp-action="Index">Back to List</a>
 </div>

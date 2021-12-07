@@ -32,5 +32,14 @@ namespace ASP_Assignment.Repositories
             _context.SaveChanges();
             return bankAccount.accountNum;
         }
+
+        public bool Delete(int id)
+        {
+            BankAccount bankAccount = _context.BankAccounts
+                                      .Where(e => e.accountNum == id).FirstOrDefault();
+            _context.Remove(bankAccount);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

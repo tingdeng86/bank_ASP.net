@@ -49,10 +49,11 @@
 
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { clientID = item.clientID, accountNum = item.accountNum }) |
-                    @Html.ActionLink("Details", "Details", new { clientID = item.clientID, accountNum = item.accountNum })
-                    @*@Html.ActionLink("Profile", "Profile", new { email = item.email })*@
+                    @Html.ActionLink("Details", "Details", new { clientID = item.clientID, accountNum = item.accountNum }) |
+                    @Html.ActionLink("Delete", "Delete", new { clientID = item.clientID, accountNum = item.accountNum })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@ViewBag.Message

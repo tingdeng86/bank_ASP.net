@@ -4,6 +4,7 @@ using ASP_Assignment.Repositories;
 using ASP_Assignment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace ASP_Assignment.Controllers
@@ -18,16 +19,28 @@ namespace ASP_Assignment.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string message)
         {
+            if (message == null)
+            {
+                message = "";
+            }
+            ViewData["Message"] = message;
+
             string email = User.Identity.Name;
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             IQueryable<ClientAccountVM> caVM = esRepo.GetLists(email);
             return View(caVM);
 
         }
-        public ActionResult Details(int clientID, int accountNum)
+        public ActionResult Details(int clientID, int accountNum,string message)
         {
+            if (message == null)
+            {
+                message = "";
+            }
+            ViewData["Message"] = message;
+
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             ClientAccountVM caVM = esRepo.GetDetail(clientID, accountNum);
             return View(caVM);
@@ -42,28 +55,23 @@ namespace ASP_Assignment.Controllers
         [HttpPost]
         public ActionResult Edit(ClientAccountVM caVM)
         {
-            ViewBag.ErrorMessage = "";
+            ViewData["Message"] = "";
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             if (ModelState.IsValid)
             {
                 esRepo.Update(caVM);
-                return RedirectToAction("Details", "Accounts", new { caVM.clientID, caVM.accountNum });
+                ViewData["Message"] = "The update has been saved.";
+
+                return RedirectToAction("Details", "Accounts", new { caVM.clientID, caVM.accountNum, message = ViewData["Message"] });
             }
             else
             {
-                ViewBag.ErrorMessage = "This entry is invalid.";
+                ViewData["Message"] = "This entry is invalid.";
                 return View(caVM);
             }           
         }
 
-        //[Authorize]
-        //public ActionResult Profile()
-        //{
-        //    string userName = User.Identity.Name;
-        //    ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-        //    ClientAccountVM caVM = esRepo.GetProfile(userName);
-        //    return View(caVM);
-        //}
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -74,13 +82,39 @@ namespace ASP_Assignment.Controllers
         [HttpPost]
         public ActionResult Create([Bind("accountType,balance")] ClientAccountVM ca)
         {
+            ViewData["Message"] = "";
+            ca.email = User.Identity.Name;
+            
+            ClientAccount clientAccount;
+            try {
+                ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+                clientAccount = esRepo.Add(ca);
 
-            string userName = User.Identity.Name;
-            ca.email = userName;
-            ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
-                esRepo.Add(ca);
-                return RedirectToAction("Index", "Accounts");
+                ViewData["Message"] = "Created successfully";
+                return RedirectToAction("Details", "Accounts", new { clientAccount.clientID, clientAccount.accountNum, message = ViewData["Message"] });
+            }
+            catch (Exception e) {
+                ViewData["Message"] =e.Message;
+                return View(ca);
+            }
+
         }
+        public ActionResult Delete (int clientID,int accountNum)
+        {
+            ViewData["Message"] = "";
+            try
+            {
+                ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
+                esRepo.Delete(clientID, accountNum);
+                ViewData["Message"] = "Deleted successfully";
+            }
+            catch (Exception e)
+            {
+                ViewData["Message"] =e.Message;
+            }
+            return RedirectToAction("Index", "Accounts", new { message = ViewData["Message"] });
+
+        }      
 
     }
 }

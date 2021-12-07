@@ -82,13 +82,11 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
             [Display(Name = "Balance")]
             [Range(0, int.MaxValue, ErrorMessage = "Balance can not be less than 0.")]
 
-            [RegularExpression(@"^\d+(\.\d{0,2})",
+            [RegularExpression(@"^\d+.?\d{0,2}$",
                         ErrorMessage = "Balance should be a number which is up to two digits to the right of the decimal.")]
             [Required]
             public decimal Balance { get; set; }
         }
-
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -105,9 +103,12 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
             {               
                 accountType = "Chequing";               
             }
-            else  
+            else if(accountTypeNum=="Savings")
             {
                 accountType = "Savings";
+            }else
+            {
+                accountType = "";
             }
            
             returnUrl ??= Url.Content("~/");
@@ -126,8 +127,6 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                         accountType = accountType,
                         balance = Input.Balance
                     };
-                    //_context.MyRegisteredUsers.Add(registerUser);
-                    //_context.SaveChanges();
                     ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
                     esRepo.AddRegister(registerUser);
                     _context.SaveChanges();

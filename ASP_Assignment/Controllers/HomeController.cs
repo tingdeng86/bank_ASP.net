@@ -34,6 +34,7 @@ namespace ASP_Assignment.Controllers
                 string firstName = caVM.First().firstName;
                 HttpContext.Session.SetString(FIRSTNAME, firstName);
                 HttpContext.Session.GetString(FIRSTNAME);
+
             }
             return View();
         }

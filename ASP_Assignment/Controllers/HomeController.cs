@@ -23,11 +23,15 @@ namespace ASP_Assignment.Controllers
 
         public IActionResult Index()
         {
-            
-            
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Accounts");
+            }
+
+
             return View();
         }
-        [HttpPost]
+    
 
 
 

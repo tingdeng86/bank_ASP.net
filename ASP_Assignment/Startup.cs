@@ -34,6 +34,12 @@ namespace ASP_Assignment
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSession(options => {
+                // Set timeout.
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
+  
+
             services.AddControllersWithViews();
         }
 
@@ -53,7 +59,7 @@ namespace ASP_Assignment
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

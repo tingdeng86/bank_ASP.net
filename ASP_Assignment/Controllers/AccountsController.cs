@@ -3,6 +3,7 @@ using ASP_Assignment.Models;
 using ASP_Assignment.Repositories;
 using ASP_Assignment.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -14,11 +15,12 @@ namespace ASP_Assignment.Controllers
     {
         
         private readonly ApplicationDbContext _context;
+
         public AccountsController( ApplicationDbContext context)
         {         
             _context = context;
         }
-
+        const string FIRSTNAME = "FirstName";
         public IActionResult Index(string message)
         {
             if (message == null)
@@ -30,6 +32,10 @@ namespace ASP_Assignment.Controllers
             string email = User.Identity.Name;
             ClientAccountVMRepo esRepo = new ClientAccountVMRepo(_context);
             IQueryable<ClientAccountVM> caVM = esRepo.GetLists(email);
+            
+            string firstName = caVM.First().firstName;           
+            HttpContext.Session.SetString(FIRSTNAME, firstName);
+            HttpContext.Session.GetString(FIRSTNAME);          
             return View(caVM);
 
         }

@@ -111,7 +111,7 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                 accountType = "";
             }
            
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Content("~/Accounts/Index");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
@@ -151,7 +151,7 @@ namespace ASP_Assignment.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "Accounts", new { email = Input.Email });
+                        return LocalRedirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)
